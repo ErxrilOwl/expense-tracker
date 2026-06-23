@@ -1,5 +1,7 @@
-import { Text } from "react-native";
+import { Text } from 'react-native';
 
-export const RecentExpenses = () => {
-  return <Text>All Expenses</Text>;
-};
+function RecentExpenses() {
+  return <Text>RecentExpenses Screen</Text>;
+}
+
+export default RecentExpenses;
