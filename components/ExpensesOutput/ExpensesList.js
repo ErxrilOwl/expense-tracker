@@ -1,3 +1,7 @@
 export const ExpensesList = () => {
-    
+    return (
+        <>
+            
+        </>
+    )
 }
