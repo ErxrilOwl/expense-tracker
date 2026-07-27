@@ -39,7 +39,7 @@ const DUMMY_EXPENSES = [
     }
 ]
 
-const ExpensesContext = createContext({
+export const ExpensesContext = createContext({
     expenses: [],
     addExpense: ({ description, amount, date }) => {},
     deleteExpense: (id) => {},
@@ -83,6 +83,13 @@ function ExpensesContextProvider({ children }) {
             type: 'UPDATE',
             payload: { id, data: expenseData }
         })
+    }
+
+    const value = {
+        expenses: expensesState,
+        addExpense: addExpense,
+        updateExpense: updateExpense,
+        deleteExpense: deleteExpense
     }
 
     return <ExpensesContext.Provider>{ children }</ExpensesContext.Provider>
