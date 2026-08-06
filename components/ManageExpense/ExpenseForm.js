@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "../UI/Button";
 import { getFormattedDate } from "../../util/date";
 import { Alert } from "react-native";
+import { GlobalStyles } from "../../constants/styles";
 
 export const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel, defaultValues }) => {
     const [inputs, setInputs] = useState({
@@ -62,27 +63,41 @@ export const ExpenseForm = ({ onCancel, onSubmit, submitButtonLabel, defaultValu
         <View style={styles.form}>
             <Text style={styles.title}>Your Expense</Text>
             <View style={styles.inputsRow}>
-                <Input style={styles.rowInput} label="Amount" textInputConfig={{
-                    keyboardType: 'descimal-pad',
-                    onChangeText: inputChangedHandler.bind(this, 'amount'),
-                    value: inputs.amount.value
-                }} />
-                <Input style={styles.rowInput} label="Date" textInputConfig={{
-                    placeholder: 'YYYY-MM-DD',
-                    maxLength: 10,
-                    onChangeText: inputChangedHandler.bind(this, 'date'),
-                    value: inputs.date.value
-                }} />
+                <Input 
+                    style={styles.rowInput} 
+                    label="Amount" 
+                    invalid={!inputs.amount.isValid}
+                    textInputConfig={{
+                        keyboardType: 'descimal-pad',
+                        onChangeText: inputChangedHandler.bind(this, 'amount'),
+                        value: inputs.amount.value
+                    }} 
+                />
+                <Input 
+                    style={styles.rowInput} 
+                    label="Date" 
+                    invalid={!inputs.date.isValid}
+                    textInputConfig={{
+                        placeholder: 'YYYY-MM-DD',
+                        maxLength: 10,
+                        onChangeText: inputChangedHandler.bind(this, 'date'),
+                        value: inputs.date.value
+                    }} 
+                />
             </View>
-            <Input label="Description"  textInputConfig={{
-                multiline: true,
-                onChangeText: inputChangedHandler.bind(this, 'description'),
-                value: inputs.description.value
-                // autoCapitalize: 'characters',
-                // autoCorrect: false
-            }}/>
+            <Input 
+                label="Description"  
+                invalid={!inputs.description.isValid}
+                textInputConfig={{
+                    multiline: true,
+                    onChangeText: inputChangedHandler.bind(this, 'description'),
+                    value: inputs.description.value
+                    // autoCapitalize: 'characters',
+                    // autoCorrect: false
+                }}
+            />
 
-            { formIsInvalid && <Text>Invalid input values - please check your entered data</Text> }
+            { formIsInvalid && <Text style={styles.errorText}>Invalid input values - please check your entered data</Text> }
 
             <View style={styles.buttons}>
                 <Button style={styles.button} mode="flat" onPress={onCancel}>Cancel</Button>
@@ -109,6 +124,11 @@ const styles = StyleSheet.create({
     },
     rowInput: {
         flex: 1
+    },
+    errorText: {
+        textAlign: 'center',
+        color: GlobalStyles.colors.error500,
+        margin: 8
     },
     buttons: {
         flexDirection: 'row',
