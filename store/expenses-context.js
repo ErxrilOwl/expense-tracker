@@ -1,44 +1,5 @@
 import { createContext, useReducer } from "react";
 
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    description: 'A pair of shoes',
-    amount: 59.99,
-    date: new Date('2025-12-19'),
-  },
-  {
-    id: 'e2',
-    description: 'A pair of trousers',
-    amount: 89.99,
-    date: new Date('2026-06-24'),
-  },
-  {
-    id: 'e3',
-    description: 'A pair of socks',
-    amount: 10.25,
-    date: new Date('2026-06-19'),
-  },
-  {
-    id: 'e4',
-    description: 'Banana',
-    amount: 5.99,
-    date: new Date('2026-06-15'),
-  },
-  {
-    id: 'e5',
-    description: 'Book',
-    amount: 20.59,
-    date: new Date('2026-06-20'),
-  },
-  {
-    id: 'e6',
-    description: 'Another Book',
-    amount: 20.59,
-    date: new Date('2026-07-03'),
-  },
-];
-
 export const ExpensesContext = createContext({
   expenses: [],
   addExpense: ({ description, amount, date }) => {},
@@ -61,11 +22,11 @@ function expensesReducer(state, action) {
       const updatableExpenseIndex = state.findIndex(
         (expense) => expense.id === action.payload.id
       );
-      const updatableExpense = state[updatableExpenseIndex]; // FIXED: Correct variable name
+      const updatableExpense = state[updatableExpenseIndex];
       const updatedItem = { ...updatableExpense, ...action.payload.data };
       const updatedExpenses = [...state];
-      updatedExpenses[updatableExpenseIndex] = updatedItem; // FIXED: Correct variable name
-      return updatedExpenses; // FIXED: Added missing return statement
+      updatedExpenses[updatableExpenseIndex] = updatedItem;
+      return updatedExpenses;
 
     case 'DELETE':
       return state.filter((expense) => expense.id !== action.payload);
@@ -76,7 +37,7 @@ function expensesReducer(state, action) {
 }
 
 function ExpensesContextProvider({ children }) {
-  const [expensesState, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+  const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
   function addExpense(expenseData) {
     dispatch({ type: 'ADD', payload: expenseData });
