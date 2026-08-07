@@ -1,5 +1,5 @@
 import { useContext, useLayoutEffect } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { IconButton } from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import { Button } from '../components/UI/Button';
@@ -8,27 +8,29 @@ import { ExpenseForm } from '../components/ManageExpense/ExpenseForm';
 import { storeExpense } from '../util/http';
 
 const ManageExpense = ({ route, navigation }) => {
-  const expensesCtx = useContext(ExpensesContext)
+  const expensesCtx = useContext(ExpensesContext);
 
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
 
-  const selectedExpense = expensesCtx.expenses.find(expense => expense.id === editedExpenseId);
+  const selectedExpense = expensesCtx.expenses.find(
+    (expense) => expense.id === editedExpenseId
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? 'Edit Expense' : 'Add Expense'
+      title: isEditing ? 'Edit Expense' : 'Add Expense',
     });
   }, [navigation, isEditing]);
 
   const deleteExpenseHandler = () => {
     expensesCtx.deleteExpense(editedExpenseId);
     navigation.goBack();
-  }
+  };
 
   const cancelHandler = () => {
     navigation.goBack();
-  }
+  };
 
   const confirmHandler = (expenseData) => {
     if (isEditing) {
@@ -39,41 +41,44 @@ const ManageExpense = ({ route, navigation }) => {
     }
 
     navigation.goBack();
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <ExpenseForm 
-        submitButtonLabel={isEditing ? 'Update' : 'Add'} 
+      <ExpenseForm
+        submitButtonLabel={isEditing ? 'Update' : 'Add'}
         onSubmit={confirmHandler}
-        onCancel={cancelHandler} 
+        onCancel={cancelHandler}
         defaultValues={selectedExpense}
-        />
-      
-      { isEditing && (
+      />
+
+      {isEditing && (
         <View style={styles.deleteContainer}>
-          <IconButton 
-            icon="trash" 
-            color={GlobalStyles.colors.error500} 
-            size={36} 
-            onPress={deleteExpenseHandler} />
+          <IconButton
+            icon="trash"
+            color={GlobalStyles.colors.error500}
+            size={36}
+            onPress={deleteExpenseHandler}
+          />
         </View>
-      ) }
+      )}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary800
+    backgroundColor: GlobalStyles.colors.primary800,
   },
   deleteContainer: {
     marginTop: 16,
     paddingTop: 8,
     borderTopWidth: 2,
     borderTopColor: GlobalStyles.colors.primary200,
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});
+
+export default ManageExpense;

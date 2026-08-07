@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import { ExpensesSummary } from "./ExpensesSummary"
 import { ExpensesList } from "./ExpensesList"
 import { GlobalStyles } from "../../constants/styles"
@@ -6,7 +6,7 @@ import { GlobalStyles } from "../../constants/styles"
 export const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText }) => {
     let content = <Text style={styles.infoText}>{fallbackText}</Text>
 
-    if (expenses.length > 0) {
+    if (expenses && expenses.length > 0) {
         content = <ExpensesList expenses={expenses} />
     }
 
